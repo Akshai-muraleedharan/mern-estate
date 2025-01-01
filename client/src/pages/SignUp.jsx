@@ -37,7 +37,8 @@ export default function SignUp() {
 
       if(data.success === false){
         setLoading(false)
-        setError(error.message)
+         setError(data.message)
+     
         return
       }
       
@@ -47,7 +48,7 @@ export default function SignUp() {
     
     } catch (error) {
       setLoading(false)
-      setError(error.message)
+       setError(error.message)
     }
  }
 

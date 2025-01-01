@@ -8,11 +8,13 @@ import jwt from 'jsonwebtoken'
 
         const {username,email,password} = req.body
 
+        if(!username || !email ||  !password) return next(errorHandler(404,'All fields required'))
+
         const hasedPassword =  bcryptjs.hashSync(password,10)
 
         const newUser = new User({username,email,password:hasedPassword})
 
-        try {
+        try { 
             await newUser.save()
 
             res.status(201).json("user created successfully")
@@ -34,7 +36,7 @@ import jwt from 'jsonwebtoken'
 
             const validPassword = await bcryptjs.compareSync(password,validUser.password)
 
-            if(!validPassword) return next(errorHandler(401,'Invalid credentials'))
+            if(!validPassword) return next(errorHandler(404,'Invalid credentials'))
             
             const token = jwt.sign({id:validUser._id},process.env.JWT_SECRET)
 
